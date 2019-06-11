@@ -46,28 +46,34 @@
         .revealed .top-text {
             color: transparent;
         }
-        .card.revealed[data-reverse="red"] {
+
+        .card.revealed {
             cursor: default;
-            background-color: #DB4437;
             color: white;
+        }
+
+        .card.revealed[data-reverse="red"] {
+            background-color: #DB4437;
         }
 
         .card.revealed[data-reverse="blue"] {
-            cursor: default;
             background-color: #348AD3;
-            color: white;
         }
 
         .card.revealed[data-reverse="brown"] {
-            cursor: default;
             background-color: #FFC107;
-            color: white;
         }
 
         .card.revealed[data-reverse="black"] {
-            cursor: default;
             background-color: black;
-            color: white;
+        }
+
+        .card.revealed.master {
+            cursor: pointer;
+        }
+
+        .card.revealed.played {
+            opacity: 0.3;
         }
 
         #team-indicator {
@@ -118,6 +124,10 @@
 
 <script>
     let game = {};
+    const revealedClassName = 'revealed';
+    const playedClassName = 'played'
+    const masterClassName = 'master'
+    const cardClassName = 'card'
 
     function getGameNumberElement() {
         return document.getElementById('game-number');
@@ -182,10 +192,22 @@
         let countOfReds = 0;
         let countOfBlues = 0;
         for(let i = 0; i < 25; i++) {
+            let cardCssClasses = ['card'];
             let currentElement = games[game.number][i];
-            let additionalClass = game.revealed.includes(i) || game.startAsMaster ? ' revealed' : '';
+            let isCarClicked = game.revealed.includes(i);
+
+            if(game.startAsMaster) {
+                cardCssClasses.push(revealedClassName, masterClassName);
+            }
+
+            if(isCarClicked) {
+                cardCssClasses.push(game.startAsMaster ? playedClassName : revealedClassName);
+            }
+
+            let onClickAction = game.startAsMaster ? markAsPlayed.name : revealCard.name; 
+
             gameHtml += 
-            `<div class="card${additionalClass}" data-reverse="${currentElement[0]}" onclick="revealCard(this,${i})">
+            `<div class="${cardCssClasses.join(' ')}" data-reverse="${currentElement[0]}" onclick="${onClickAction}(this,${i})">
                 <div class="top-text">${currentElement[1]}</div>
                 <div class="bottom-text">${currentElement[1]}</div>
             </div>`;
@@ -207,10 +229,24 @@
         const cardAlreadyRevealed = game.revealed.includes(index);
         if(cardAlreadyRevealed) return;
 
-        card.classList.add('revealed');
+        card.classList.add(revealedClassName);
         game.revealed.push(index);
         saveGame();
-        console.log('Card revealed', card);
+    }
+
+    function markAsPlayed(card, cardPosition) {
+        const index = game.revealed.indexOf(cardPosition);
+        const isCardPlayed = index > -1;
+
+        if(isCardPlayed) {
+            card.classList.remove(playedClassName);
+            game.revealed.splice(index, 1);
+        } else {
+            game.revealed.push(cardPosition);
+            card.classList.add(playedClassName);
+        }
+
+        saveGame();
     }
 
     function endGame() {
