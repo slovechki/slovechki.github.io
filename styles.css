@@ -1,0 +1,121 @@
+#game-board {
+    margin-top: 35px;
+    width: 760px;
+    display: grid;
+    grid-gap: 2px;
+    grid-template-columns: repeat(5, 150px);
+    grid-template-rows: repeat(5, 80px);
+    grid-auto-flow: column;
+}
+
+.card {
+    background: #f1e9d2;
+    border: 1px black;
+    width: 100%;
+    height: 100%;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.top-text {
+    transform: rotate(-180deg);
+    color: brown;
+    font-size: 70%;
+    margin-top: 5px;
+}
+
+.bottom-text {
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+.revealed .top-text {
+    color: transparent;
+}
+
+.card.revealed {
+    cursor: default;
+    color: white;
+}
+
+.card.revealed[data-reverse="red"] {
+    background-color: #DB4437;
+}
+
+.card.revealed[data-reverse="blue"] {
+    background-color: #348AD3;
+}
+
+.card.revealed[data-reverse="brown"] {
+    background-color: #FFC107;
+}
+
+.card.revealed[data-reverse="black"] {
+    background-color: black;
+}
+
+.card.revealed.master {
+    cursor: pointer;
+}
+
+.card.revealed.played {
+    opacity: 0.3;
+}
+
+#team-indicator {
+    padding-top: 5px;
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+    display: none;
+    color: white;
+    text-align: center;
+    vertical-align: top;
+}
+
+#team-indicator.red {
+    background-color: #DB4437;
+    display: inline-block;
+}
+
+#team-indicator.blue {
+    background-color: #348AD3;
+    display: inline-block;
+}
+
+#game-result {
+    display: none;
+    margin: 20px 350px;
+}
+
+#game-result.red {
+    fill: #DB4437;
+    display: block;
+}
+
+#game-result.blue {
+    fill: #348AD3;
+    display: block;
+}
+
+input {
+    height: 35px;
+    font-size: 20px;
+}
+
+button {
+    vertical-align: top;
+    height: 35px;
+}
+
+.nav-button {
+    width: 40px;
+}
+
+label {
+    font-size: 20px;
+}
