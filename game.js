@@ -179,6 +179,7 @@ function markAsPlayed(card, cardPosition) {
     }
 
     saveGame();
+    checkIfGameOver();
 }
 
 function endGame() {
