@@ -109,7 +109,7 @@ function drawABoard() {
 
     gameHtml += `<div class="${cardCssClasses.join(" ")}" data-reverse="${
       currentElement[0]
-    }" ondblclick="${onClickAction}(this,${i})">
+    }" ondblclick="${onClickAction}(this,${i})" ontouchend="detectDoubleTap(this,${i});return false;">
             <div>${currentElement[1]}</div>
         </div>`;
 
@@ -124,6 +124,25 @@ function drawABoard() {
   }
   game.teamStarts = countOfReds > countOfBlues ? redCard : blueCard;
   getGameBoardElement().innerHTML = gameHtml;
+}
+
+let lastTap = new Array(25).fill(0);
+let timeout;
+function detectDoubleTap(el, index) {
+  const curTime = new Date().getTime();
+  const tapLen = curTime - lastTap[index];
+  if (tapLen < 500 && tapLen > 0) {
+    if (game.startAsMaster) {
+      markAsPlayed(el, index);
+    } else {
+      revealCard(el, index);
+    }
+  } else {
+    timeout = setTimeout(() => {
+      clearTimeout(timeout);
+    }, 500);
+  }
+  lastTap[index] = curTime;
 }
 
 function revealCard(card, index) {
