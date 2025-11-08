@@ -8,9 +8,9 @@
 
 <body>
     <label>Игра (1-100)</label>
-    <button id="stepDown" class="nav nav-button" onClick="previousGame()">-</button><input id="game-number"
+    <button id="stepDown" class="nav nav-button" onClick="previousGame()">&#60;</button><input id="game-number"
         type="number" class="nav" value="1" min="1" max="100"><button id="stepUp" onClick="nextGame()"
-        class="nav nav-button">+</button>
+        class="nav nav-button">&#62;</button>
     <button id="start-game" onclick="startGame()">Начать</button>
     <button id="start-as-master" onclick="startGame(true)">Начать как ведущий</button>
     <button id="end-game" onclick="endGame()" style="display: none;">Закончить игру</button>
@@ -45,3 +45,4 @@
 
 
 </html>
+
